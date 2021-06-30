@@ -1,0 +1,287 @@
+CREATE TABLE admiempresa (
+    id          INTEGER identity(1,1) NOT NULL,
+    nombre      NVARCHAR(30) ,
+    apellidos   NVARCHAR(30) ,
+    telefono    NVARCHAR(30),
+    direccion   NVARCHAR(50),
+    correo      NVARCHAR(30) ,
+    contraseña  NVARCHAR(30) ,
+	salAdmiEmpresa	NVARCHAR(MAX),
+    empresa_id  INTEGER ,
+    
+);
+
+CREATE UNIQUE INDEX admiempresa__idx ON
+    admiempresa (
+        empresa_id
+    ASC );
+
+ALTER TABLE admiempresa ADD CONSTRAINT admiempresa_pk PRIMARY KEY ( id );
+
+CREATE TABLE areaestudio (
+    id           INTEGER identity(1,1) NOT NULL,
+    descripcion  NVARCHAR(40) 
+);
+
+ALTER TABLE areaestudio ADD CONSTRAINT areaestudio_pk PRIMARY KEY ( id );
+
+CREATE TABLE areatrabajo (
+    id           INTEGER identity(1,1) NOT NULL,
+    descripcion  NVARCHAR(40) 
+);
+
+ALTER TABLE areatrabajo ADD CONSTRAINT areatrabajo_pk PRIMARY KEY ( id );
+
+CREATE TABLE candidato (
+    idcandidat            INTEGER identity(1,1) NOT NULL,
+    nombres               NVARCHAR(50) ,
+    apellidos             NVARCHAR(100) ,
+	dni                   NVARCHAR(50),
+    fechanacim            DATE ,
+    telefono              NVARCHAR(40),
+    descrpperfil          NVARCHAR(100),
+    correo                NVARCHAR(100), 
+    contraseña            NVARCHAR(100) ,
+    foto                  NVARCHAR(MAX),
+    genero_idgenero       INTEGER ,
+    estadocivil_idestciv  INTEGER ,
+    dochojavida           NVARCHAR(30),
+	salCandidato	NVARCHAR(MAX)
+    
+    
+);
+
+ALTER TABLE candidato ADD CONSTRAINT candidato_pk PRIMARY KEY ( idcandidat );
+
+CREATE TABLE detpostuof (
+    id                    INTEGER identity(1,1) NOT NULL,
+    ofertalaboral_id      INTEGER ,
+    candidato_idcandidat  INTEGER 
+);
+
+ALTER TABLE detpostuof ADD CONSTRAINT detallepostulanteoferta_pk PRIMARY KEY ( id );
+
+CREATE TABLE empresa (
+    id               INTEGER identity(1,1) NOT NULL,
+    ruc              NVARCHAR(30) ,
+    ubicacion        NVARCHAR(30) ,
+    email            NVARCHAR(30) ,
+    industria        NVARCHAR(30) ,
+    telefono         NVARCHAR(30),
+    descripcionempr  NVARCHAR(30),
+    razonsocial      NVARCHAR(30) ,
+    logoempresa      NVARCHAR(MAX)
+);
+
+ALTER TABLE empresa ADD CONSTRAINT empresa_pk PRIMARY KEY ( id );
+
+CREATE TABLE estadocivil (
+    idestciv     INTEGER identity(1,1) NOT NULL,
+    descripcion  NVARCHAR(30) 
+);
+
+ALTER TABLE estadocivil ADD CONSTRAINT estadocivil_pk PRIMARY KEY ( idestciv );
+
+CREATE TABLE explabcand (
+    idexplabcand          INTEGER identity(1,1) NOT NULL,
+    empresaexp            NVARCHAR(50) ,
+    cargo                 NVARCHAR(50) ,
+    estado                CHAR(1),
+    fecha_inicio          DATE ,
+    fecha_fin             DATE,
+    descripfuncion        NVARCHAR(100),
+    giroempresa_id        INTEGER ,
+    areatrabajo_id        INTEGER ,
+    candidato_idcandidat  INTEGER 
+);
+
+ALTER TABLE explabcand ADD CONSTRAINT experiencialabcandidato_pk PRIMARY KEY ( idexplabcand );
+
+CREATE TABLE formaccand (
+    idformacadem          INTEGER identity(1,1) NOT NULL,
+    nombrecentroed        NVARCHAR(50),
+    estado                CHAR(1),
+    fechainicio           DATE,
+    fechafin              DATE,
+    tipoestudio_id        INTEGER ,
+    pais_id               INTEGER ,
+    areaestudio_id        INTEGER ,
+    candidato_idcandidat  INTEGER ,
+    titulocarrera         NVARCHAR(80)
+);
+
+ALTER TABLE formaccand ADD CONSTRAINT formacionacademicacand_pk PRIMARY KEY ( idformacadem );
+
+CREATE TABLE genero (
+    idgenero     INTEGER identity(1,1) NOT NULL,
+    descripcion  NVARCHAR(30) 
+);
+
+ALTER TABLE genero ADD CONSTRAINT genero_pk PRIMARY KEY ( idgenero );
+
+CREATE TABLE giroempresa (
+    id          INTEGER identity(1,1) NOT NULL,
+    descripcion  NVARCHAR(40) 
+);
+
+ALTER TABLE giroempresa ADD CONSTRAINT giroempresa_pk PRIMARY KEY ( id );
+
+CREATE TABLE habconocimcand (
+    id                    INTEGER identity(1,1) NOT NULL,
+    descripcion           NVARCHAR(40) ,
+    candidato_idcandidat  INTEGER 
+);
+
+ALTER TABLE habconocimcand ADD CONSTRAINT habconocimcand_pk PRIMARY KEY ( id );
+
+CREATE TABLE idioma (
+    id           INTEGER identity(1,1) NOT NULL,
+    descripcion  NVARCHAR(40) 
+);
+
+ALTER TABLE idioma ADD CONSTRAINT idioma_pk PRIMARY KEY ( id );
+
+CREATE TABLE idiomacandid (
+    ididioma              INTEGER identity(1,1) NOT NULL,
+    idioma_id             INTEGER ,
+    niveloralidi_id       INTEGER ,
+    nivescrid_id          INTEGER ,
+    candidato_idcandidat  INTEGER 
+);
+
+ALTER TABLE idiomacandid ADD CONSTRAINT idiomacandid_pk PRIMARY KEY ( ididioma );
+
+CREATE TABLE jornada (
+    id           INTEGER identity(1,1) NOT NULL,
+    descripcion  NVARCHAR(30) 
+);
+
+ALTER TABLE jornada ADD CONSTRAINT jornada_pk PRIMARY KEY ( id );
+
+CREATE TABLE niveloralidi (
+    id           INTEGER identity(1,1) NOT NULL,
+    descripcion  NVARCHAR(40)
+);
+
+ALTER TABLE niveloralidi ADD CONSTRAINT niveloralidi_pk PRIMARY KEY ( id );
+
+CREATE TABLE nivescrid (
+    id           INTEGER identity(1,1) NOT NULL,
+    descripcion  NVARCHAR(40)
+);
+
+ALTER TABLE nivescrid ADD CONSTRAINT nivelescritoidi_pk PRIMARY KEY ( id );
+
+CREATE TABLE ofertalaboral (
+    id                 INTEGER identity(1,1) NOT NULL,
+    descripcionpuesto  NVARCHAR(50) ,
+    titulooferta       NVARCHAR(50) ,
+    detalleoferta      NVARCHAR(100) ,
+    perfilcandidato    NVARCHAR(100) ,
+    requisitos         NVARCHAR(100),
+    salario            DECIMAL ,
+    fechapublicacion   DATE ,
+    fechafin           DATE ,
+    jornada_id         INTEGER ,
+    empresa_id         INTEGER 
+);
+
+ALTER TABLE ofertalaboral ADD CONSTRAINT ofertalaboral_pk PRIMARY KEY ( id );
+
+CREATE TABLE pais (
+    id           INTEGER identity(1,1) NOT NULL,
+    descripcion  NVARCHAR(40)
+);
+
+ALTER TABLE pais ADD CONSTRAINT pais_pk PRIMARY KEY ( id );
+
+CREATE TABLE personaladmin (
+    id          INTEGER identity(1,1) NOT NULL,
+    usuario     NVARCHAR(50),
+    contraseña  NVARCHAR(50)
+);
+
+ALTER TABLE personaladmin ADD CONSTRAINT personaladmin_pk PRIMARY KEY ( id );
+
+CREATE TABLE tipoestudio (
+    id           INTEGER identity(1,1) NOT NULL,
+    descripcion  NVARCHAR(40) 
+);
+
+ALTER TABLE tipoestudio ADD CONSTRAINT tipoestudio_pk PRIMARY KEY ( id );
+
+ALTER TABLE admiempresa
+    ADD CONSTRAINT admiempresa_empresa_fk FOREIGN KEY ( empresa_id )
+        REFERENCES empresa ( id );
+
+ALTER TABLE candidato
+    ADD CONSTRAINT candidato_estadocivil_fk FOREIGN KEY ( estadocivil_idestciv )
+        REFERENCES estadocivil ( idestciv );
+
+ALTER TABLE candidato
+    ADD CONSTRAINT candidato_genero_fk FOREIGN KEY ( genero_idgenero )
+        REFERENCES genero ( idgenero );
+
+ALTER TABLE detpostuof
+    ADD CONSTRAINT detpostuof_candidato_fk FOREIGN KEY ( candidato_idcandidat )
+        REFERENCES candidato ( idcandidat );
+
+ALTER TABLE detpostuof
+    ADD CONSTRAINT detpostuof_ofertalaboral_fk FOREIGN KEY ( ofertalaboral_id )
+        REFERENCES ofertalaboral ( id );
+
+ALTER TABLE explabcand
+    ADD CONSTRAINT explabcand_areatrabajo_fk FOREIGN KEY ( areatrabajo_id )
+        REFERENCES areatrabajo ( id );
+
+ALTER TABLE explabcand
+    ADD CONSTRAINT explabcand_candidato_fk FOREIGN KEY ( candidato_idcandidat )
+        REFERENCES candidato ( idcandidat );
+
+ALTER TABLE explabcand
+    ADD CONSTRAINT explabcand_giroempresa_fk FOREIGN KEY ( giroempresa_id )
+        REFERENCES giroempresa ( id );
+
+ALTER TABLE formaccand
+    ADD CONSTRAINT formaccand_areaestudio_fk FOREIGN KEY ( areaestudio_id )
+        REFERENCES areaestudio ( id );
+
+ALTER TABLE formaccand
+    ADD CONSTRAINT formaccand_candidato_fk FOREIGN KEY ( candidato_idcandidat )
+        REFERENCES candidato ( idcandidat );
+
+ALTER TABLE formaccand
+    ADD CONSTRAINT formaccand_pais_fk FOREIGN KEY ( pais_id )
+        REFERENCES pais ( id );
+
+ALTER TABLE formaccand
+    ADD CONSTRAINT formaccand_tipoestudio_fk FOREIGN KEY ( tipoestudio_id )
+        REFERENCES tipoestudio ( id );
+
+ALTER TABLE habconocimcand
+    ADD CONSTRAINT habconocimcand_candidato_fk FOREIGN KEY ( candidato_idcandidat )
+        REFERENCES candidato ( idcandidat );
+
+ALTER TABLE idiomacandid
+    ADD CONSTRAINT idiomacandid_candidato_fk FOREIGN KEY ( candidato_idcandidat )
+        REFERENCES candidato ( idcandidat );
+
+ALTER TABLE idiomacandid
+    ADD CONSTRAINT idiomacandid_idioma_fk FOREIGN KEY ( idioma_id )
+        REFERENCES idioma ( id );
+
+ALTER TABLE idiomacandid
+    ADD CONSTRAINT idiomacandid_niveloralidi_fk FOREIGN KEY ( niveloralidi_id )
+        REFERENCES niveloralidi ( id );
+
+ALTER TABLE idiomacandid
+    ADD CONSTRAINT idiomacandid_nivescrid_fk FOREIGN KEY ( nivescrid_id )
+        REFERENCES nivescrid ( id );
+
+ALTER TABLE ofertalaboral
+    ADD CONSTRAINT ofertalaboral_empresa_fk FOREIGN KEY ( empresa_id )
+        REFERENCES empresa ( id );
+
+ALTER TABLE ofertalaboral
+    ADD CONSTRAINT ofertalaboral_jornada_fk FOREIGN KEY ( jornada_id )
+        REFERENCES jornada ( id );
